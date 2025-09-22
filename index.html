@@ -237,8 +237,14 @@ board2.addEventListener('click',e=>{
 
 /* Scene 3 */
 const el=html=>{const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
+
+
+let zIso = 1000; 
+
+
 function enableDrag(node){
   node.addEventListener('pointerdown',e=>{
+    node.style.zIndex = ++zIso; // 新增：拖拽时置顶
     node.setPointerCapture(e.pointerId);
     const box=node.closest('.island'), R=box.getBoundingClientRect();
     const startL=(parseFloat(node.style.left||'50%')/100)*R.width;
@@ -253,6 +259,9 @@ function enableDrag(node){
     node.addEventListener('pointermove',move); node.addEventListener('pointerup',up);
   });
 }
+
+
+
 function addFloat(container,src,cls=''){
   if(cls.includes('fit')){
     const n=el(`<figure class="float fit"><img src="${src}" alt=""></figure>`); container.appendChild(n); return n;
