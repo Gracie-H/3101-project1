@@ -299,14 +299,31 @@ STACK_TRACE ⟹ ⟹ ⟹ ⟹ ⟹
 </article>`;
 
 /* selfie repeat */
-function selfieCopy(container,src,count=16){
-  for(let i=0;i<count;i++){
-    const x=Math.random()*0.84+0.08, y=Math.random()*0.84+0.08, rot=(Math.random()*24-12).toFixed(1);
-    const n=el(`<figure class="float echo" style="left:${(x*100).toFixed(2)}%;top:${(y*100).toFixed(2)}%;--rot:${rot}deg"><img src="${src}" alt="self clone"></figure>`);
-    container.appendChild(n); enableDrag(n);
+const OTHER_ISLANDS = [$('.B'), $('.C'), $('.D'), $('.F')].filter(Boolean);
+
+function selfieCopyDistributed(total=16, biasToA=0.6){
+  for(let i=0;i<total;i++){
+    const target = (Math.random() < biasToA || OTHER_ISLANDS.length===0)
+      ? ABox
+      : OTHER_ISLANDS[Math.floor(Math.random()*OTHER_ISLANDS.length)];
+
+    const x=Math.random()*0.84+0.08;
+    const y=Math.random()*0.84+0.08;
+    const rot=(Math.random()*24-12).toFixed(1);
+
+    const n=el(
+      `<figure class="float echo" style="left:${(x*100).toFixed(2)}%;top:${(y*100).toFixed(2)}%;--rot:${rot}deg">
+         <img src="images/2.jpg" alt="self clone">
+       </figure>`
+    );
+    target.appendChild(n);
+    enableDrag(n);
   }
 }
-ABox.addEventListener('click',()=>selfieCopy(ABox,'images/2.jpg',16));
+
+// random
+ABox.addEventListener('click', ()=> selfieCopyDistributed(18, 0.55));
+
 </script>
 </body>
 </html>
