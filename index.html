@@ -40,6 +40,7 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 
 /* Scene 2 */
 .board2{display:grid;grid-template-columns:1fr .5fr 1fr;gap:12px;width:min(1200px,94vw);min-height:90vh;margin:0 auto}
+
 .col{background:transparent;
   border-radius:10px;
   padding:8px;
@@ -61,7 +62,7 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
   font-size:12px;
   color:#334155;
   background:#fff}
-  
+
 .card[data-remove]{outline:2px dashed rgba(2,132,199,.28);cursor:pointer}
 .card--text{background:#fff;border:1px solid #e5e7eb;grid-template-rows:auto 1fr}
 .card-text__title{font-weight:600;font-size:14px;padding:8px 10px;border-bottom:1px solid #e5e7eb;color:#0f172a}
@@ -91,7 +92,7 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 .bill-pad p{margin:0 0 8px;font-size:14px;line-height:1.6;color:#334155}
 .bill-pad pre{margin:8px 0 0;font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:8px;padding:8px 10px;white-space:pre-wrap}
 
-/* selfie animation */
+/* me animation */
 .float.echo{animation:pop .55s ease both;opacity:.98}
 @keyframes pop{0%{transform:translate(-50%,-50%) scale(.55) rotate(var(--rot,0deg));filter:blur(2px);opacity:0}
 60%{transform:translate(-50%,-50%) scale(1.06) rotate(var(--rot,0deg));opacity:1}
@@ -100,21 +101,21 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 
 @media(max-width:700px){.board{height:68vh}.chip.l{grid-column:span 2;grid-row:span 2}}
 
-/* 让每个场景能放背景图 */
+/* background */
 .scene{ position: relative; }
 .scene::before{
   content:"";
   position: absolute;
   inset: 0;
-  z-index: 0;                    /* 背景在最底层 */
+  z-index: 0;                    /* base */
   background: var(--bg) center/cover no-repeat;
 }
 
-/* 指定每一页的背景图（把图片放到 images/ 目录） */
-#scene2{ --bg: url("images/29.gif"); }   /* 第二页背景 */
-#scene3{ --bg: url("images/29.gif"); }   /* 第三页背景 */
 
-/* 确保正片内容在背景之上 */
+#scene2{ --bg: url("images/29.gif"); }   /* 2 */
+#scene3{ --bg: url("images/29.gif"); }   /* 3 */
+
+/* up */
 #board2, .grid3{ position: relative; z-index: 1; }
 
 
@@ -187,6 +188,7 @@ let zTop=10;
 const SIZE_SET=[['m'],['l'],['s'],['m'],['s']];
 const jitter=px=>((Math.random()*2-1)*px).toFixed(1)+'px';
 
+
 for(let i=1;i<=20;i++) addChip(i);
 function addChip(i){
   const [klass]=SIZE_SET[Math.floor(Math.random()*SIZE_SET.length)];
@@ -194,6 +196,8 @@ function addChip(i){
   fig.style.setProperty('--jx',jitter(6)); fig.style.setProperty('--jy',jitter(6));
   const img=document.createElement('img'); img.src=`images/${i}.jpg`; img.alt='';
   fig.appendChild(img); board.appendChild(fig);
+
+
 
   fig.addEventListener('pointerdown',e=>{
     fig.setPointerCapture(e.pointerId); fig.style.zIndex=++zTop;
@@ -215,6 +219,8 @@ document.addEventListener('click',e=>{
   if(r && SCENES.s1.classList.contains('active')) show(SCENES.s2);
 });
 
+
+
 /* Scene 2 */
 const board2=$('#board2'); let removeClicks=0;
 board2.addEventListener('click',e=>{
@@ -226,6 +232,8 @@ board2.addEventListener('click',e=>{
   card.dataset.span=next; const [w,h]=next.split('x').map(Number);
   card.style.gridColumn=`span ${w}`; card.style.gridRow=`span ${h}`;
 });
+
+
 
 /* Scene 3 */
 const el=html=>{const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
@@ -278,15 +286,15 @@ STACK_TRACE ⟹ ⟹ ⟹ ⟹ ⟹
 </pre>
 </article>`;
 
-/* selfie echo */
-function selfieEcho(container,src,count=16){
+/* selfie repeat */
+function selfieCopy(container,src,count=16){
   for(let i=0;i<count;i++){
     const x=Math.random()*0.84+0.08, y=Math.random()*0.84+0.08, rot=(Math.random()*24-12).toFixed(1);
     const n=el(`<figure class="float echo" style="left:${(x*100).toFixed(2)}%;top:${(y*100).toFixed(2)}%;--rot:${rot}deg"><img src="${src}" alt="self clone"></figure>`);
     container.appendChild(n); enableDrag(n);
   }
 }
-ABox.addEventListener('click',()=>selfieEcho(ABox,'images/2.jpg',16));
+ABox.addEventListener('click',()=>selfieCopy(ABox,'images/2.jpg',16));
 </script>
 </body>
 </html>
