@@ -78,6 +78,25 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 
 
 @media(max-width:700px){.board{height:68vh}.chip.l{grid-column:span 2;grid-row:span 2}}
+
+/* 让每个场景能放背景图 */
+.scene{ position: relative; }
+.scene::before{
+  content:"";
+  position: absolute;
+  inset: 0;
+  z-index: 0;                    /* 背景在最底层 */
+  background: var(--bg) center/cover no-repeat;
+}
+
+/* 指定每一页的背景图（把图片放到 images/ 目录） */
+#scene2{ --bg: url("images/29.gif"); }   /* 第二页背景 */
+#scene3{ --bg: url("images/29.gif"); }   /* 第三页背景 */
+
+/* 确保正片内容在背景之上 */
+#board2, .grid3{ position: relative; z-index: 1; }
+
+
 </style>
 </head>
 <body>
