@@ -82,7 +82,14 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 
 
 .float{position:absolute;transform:translate(-50%,-50%) rotate(var(--rot,0deg));cursor:grab;user-select:none;touch-action:none}
-.float img{width:clamp(110px,18vw,220px);border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.16);-webkit-user-drag:none}
+
+.float.echo img{
+  border-radius: 0;                  
+  width: var(--size, 160px);        
+  height: var(--size, 160px);       
+  object-fit: cover;                 
+}
+
 .float.fit{position:absolute;inset:10px;transform:none;cursor:default}
 .float.fit img{width:100%;height:100%;object-fit:cover;display:block;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.12)}
 
@@ -309,20 +316,27 @@ function selfieCopyDistributed(total=16, biasToA=0.6){
 
     const x=Math.random()*0.84+0.08;
     const y=Math.random()*0.84+0.08;
-    const rot=(Math.random()*24-12).toFixed(1);
+   
 
-    const n=el(
-      `<figure class="float echo" style="left:${(x*100).toFixed(2)}%;top:${(y*100).toFixed(2)}%;--rot:${rot}deg">
+    const sizePx = Math.round(20 + Math.random()*140);
+
+    const n = el(
+      `<figure class="float echo"
+               style="left:${(x*100).toFixed(2)}%;
+                      top:${(y*100).toFixed(2)}%;
+                      --rot:0deg;
+                      --size:${sizePx}px">
          <img src="images/2.jpg" alt="self clone">
        </figure>`
     );
+
     target.appendChild(n);
     enableDrag(n);
   }
 }
 
 // random
-ABox.addEventListener('click', ()=> selfieCopyDistributed(18, 0.55));
+ABox.addEventListener('click', () => selfieCopyDistributed(5, 0.3));
 
 </script>
 </body>
