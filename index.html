@@ -125,6 +125,16 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 /* up */
 #board2, .grid3{ position: relative; z-index: 1; }
 
+/* top nav */
+.top-nav{
+  display:flex; gap:12px; align-items:center; margin:0 0 10px 0;
+}
+.top-nav a{
+  padding:6px 10px; border:1px solid #e5e7eb; border-radius:10px;
+  background:#fff; color:#0ea5e9; text-decoration:none;
+}
+.top-nav a:hover{ text-decoration:underline; }
+
 
 </style>
 
@@ -137,6 +147,13 @@ body{font-family:system-ui,-apple-system,"PingFang SC",Arial,sans-serif;backgrou
 </head>
 <body>
 <div class="container">
+  <nav class="top-nav" aria-label="Page navigation">
+    <a href="#scene1">Page 1</a>
+    <a href="#scene2">Page 2</a>
+    <a href="#scene3">Page 3</a>
+  </nav>
+
+  
   <!-- Scene 1 -->
   <section id="scene1" class="scene active" aria-label="Scene 1">
     <main class="board" id="board"></main>
@@ -186,6 +203,16 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const SCENES={s1:$('#scene1'),s2:$('#scene2'),s3:$('#scene3')};
 const show=sc=>Object.values(SCENES).forEach(s=>s.classList.toggle('active',s===sc));
+
+// URL scene123
+function route(){
+  const h = location.hash || '#scene1';
+  const el = document.querySelector(h);
+  if(el) show(el);
+}
+window.addEventListener('hashchange', route);
+route(); 
+
 
 /* Scene 1 */
 const board=$('#board');
