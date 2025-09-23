@@ -453,19 +453,26 @@ document.addEventListener('click',e=>{
 const board2=$('#board2'); let removeClicks=0;
 //change scene
 board2.addEventListener('click',e=>{
-  const card=e.target.closest('.card'); if(!card || card.classList.contains('card--text')) return;
+  const card=e.target.closest('.card'); 
+  if(!card || card.classList.contains('card--text')) return;
   if(card.hasAttribute('data-remove')){
-    removeClicks++; card.style.opacity=.65; if(removeClicks>=2) show(SCENES.s3); return;
+    removeClicks++; card.style.opacity=.65; 
+    if(removeClicks>=2) show(SCENES.s3); 
+    return;
   }
   const next=((card.dataset.span||'1x1')==='1x1')?'2x1':(card.dataset.span==='2x1')?'1x2':(card.dataset.span==='1x2')?'2x2':'1x1';
-  card.dataset.span=next; const [w,h]=next.split('x').map(Number);
-  card.style.gridColumn=`span ${w}`; card.style.gridRow=`span ${h}`;
+  card.dataset.span=next; 
+  const [w,h]=next.split('x').map(Number);
+  card.style.gridColumn=`span ${w}`; 
+  card.style.gridRow=`span ${h}`;
 });
 
 
 
 /* Scene 3 */
-const el=html=>{const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
+const el=html=>{const t=document.createElement('template');
+t.innerHTML=html.trim();
+return t.content.firstChild;}
 
 
 let zIso = 1000; 
@@ -484,8 +491,11 @@ function enableDrag(node){
       node.style.left=(Math.min(.95,Math.max(.05,nx))*100)+'%';
       node.style.top =(Math.min(.95,Math.max(.05,ny))*100)+'%';
     };
-    const up=()=>{node.releasePointerCapture(e.pointerId);node.removeEventListener('pointermove',move);node.removeEventListener('pointerup',up)};
-    node.addEventListener('pointermove',move); node.addEventListener('pointerup',up);
+    const up=()=>{node.releasePointerCapture(e.pointerId);
+    node.removeEventListener('pointermove',move);
+    node.removeEventListener('pointerup',up)};
+    node.addEventListener('pointermove',move); 
+    node.addEventListener('pointerup',up);
   });
 }
 
@@ -493,15 +503,19 @@ function enableDrag(node){
 
 function addFloat(container,src,cls=''){
   if(cls.includes('fit')){
-    const n=el(`<figure class="float fit"><img src="${src}" alt=""></figure>`); container.appendChild(n); return n;
+    const n=el(`<figure class="float fit"><img src="${src}" alt=""></figure>`); 
+    container.appendChild(n); 
+    return n;
   }
   const x=Math.random()*0.8+0.1, y=Math.random()*0.8+0.1, rot=(Math.random()*10-5).toFixed(1);
   const n=el(`<figure class="float" style="left:${x*100}%;top:${y*100}%;--rot:${rot}deg"><img src="${src}" alt=""></figure>`);
-  container.appendChild(n); enableDrag(n); return n;
+  container.appendChild(n); 
+  enableDrag(n); return n;
 }
 
 
-const ABox=$('.A'); const baseSelfie=addFloat(ABox,'images/222.jpg','fit');
+const ABox=$('.A'); 
+const baseSelfie=addFloat(ABox,'images/222.jpg','fit');
 [['.B','images/23.jpg'],
 ['.C','images/296.jpg'],
 ['.D','images/36.jpg'],
